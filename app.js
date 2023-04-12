@@ -2,6 +2,11 @@
 
 console.log("Let's get this party started!");
 
+/** global constants */
+//API would normally never be pushed to github
+const API_KEY = "nIfOgRsfVgS8TJOBkvYB2r8L51kOLWBC";
+const BASE_URL = "https://api.giphy.com/v1/gifs/search";
+
 const $searchGifs = $("#search-button");
 const $searchTerm = $("#search-term");
 const $gifBox = $("#gifs");
@@ -11,10 +16,10 @@ const $deleteGifs = $("#delete-button");
 /** return requested gif based on searchTerm.val() */
 const returnGif = async function () {
   let term = $searchTerm.val();
-//TODO:refactor endpoint to use translate for random
-  let gif = await axios.get("https://api.giphy.com/v1/gifs/search", {
+  //TODO:refactor endpoint to use translate for random
+  let gif = await axios.get(`${BASE_URL}`, {
     params: {
-      api_key: "nIfOgRsfVgS8TJOBkvYB2r8L51kOLWBC",
+      api_key: `${API_KEY}`,
       q: `${term}`,
       limit: 1,
       offset: 1,
@@ -24,7 +29,7 @@ const returnGif = async function () {
   });
 
   const newGifSource = gif.data.data[0].images.original.url;
-  const $newGifElement = $("<img>", {src: newGifSource});
+  const $newGifElement = $("<img>", { src: newGifSource });
 
   $gifBox.append($newGifElement);
   $searchTerm.val("");
