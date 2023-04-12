@@ -1,14 +1,13 @@
+"use strict";
+
 console.log("Let's get this party started!");
 
-// https://api.giphy.com/v1/gifs/search?api_key=nIfOgRsfVgS8TJOBkvYB2r8L51kOLWBC
-// &q=&limit=1&offset=0&rating=pg&lang=en
-
-// https://api.giphy.com/v1/gifs/search?api_key=nIfOgRsfVgS8TJOBkvYB2r8L51kOLWBC&q=hamster&limit=1&offset=0&rating=pg&lang=en
 const $searchGifs = $("#search-button");
 const $searchTerm = $("#search-term");
 const $gifBox = $("#gifs");
 const $deleteGifs = $("#delete-button");
 
+/** return requested gif based on searchTerm.val() */
 const returnGif = async function () {
   let term = $searchTerm.val();
 
@@ -23,21 +22,17 @@ const returnGif = async function () {
     },
   });
 
-  console.log("gif.data.url=", gif.data.data[0].images.original.url);
   const newGifSource = gif.data.data[0].images.original.url;
-
-  const $newGifElement = $("<img>", {src: newGifSource})
-    // .addClass("gif-container")
-    // .css("background-image",`url(${newGifSource})`)
-    // .attr('height','200px')
-
-  //create a new element to hold the gif
-  //set the background property as the gif URL
-  //style the gif appropriately to contain it
-
-  //append the created gif element to the DOM
+  const $newGifElement = $("<img>", {src: newGifSource});
 
   $gifBox.append($newGifElement);
+  $searchTerm.val("");
 };
 
+/** perform returnGif on search button click */
 $searchGifs.on("click", returnGif);
+
+/** remove all gifs from gifs div */
+$deleteGifs.on("click", () => {
+  $gifBox.empty();
+});
