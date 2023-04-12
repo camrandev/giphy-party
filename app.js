@@ -7,39 +7,46 @@ console.log("Let's get this party started!");
 const API_KEY = "nIfOgRsfVgS8TJOBkvYB2r8L51kOLWBC";
 const BASE_URL = "https://api.giphy.com/v1/gifs/random";
 
+/**jQuery Elements */
 const $searchGifs = $("#search-button");
 const $searchTerm = $("#search-term");
 const $gifBox = $("#gifs");
 const $deleteGifs = $("#delete-button");
 
-/** return requested gif based on searchTerm.val() */
-const returnGif = async function () {
-  let term = $searchTerm.val();
+$searchGifs.on("click", handleClick);
+
+//handle click controller
+async function handleClick() {
+  const gif = await getGif()
+  addGifToDom(gif)
+}
+
+//getGif function -> gets the gif
+async function getGif(){
+  let searchTerm = $searchTerm.val();
   let gif = await axios.get(`${BASE_URL}`, {
     params: {
       api_key: `${API_KEY}`,
-      tag: `${term}`,
+      tag: `${searchTerm}`,
       rating: 'g'
-      // limit: 1,
-      // offset: 1,
-      // rating: "pg",
-      // lang: "en",
     },
   });
 
+  return gif
+}
+
+//addGifToDom -> builds the gif node and adds it to the dom
+function addGifToDom(gif) {
   const newGifSource = gif.data.data.images.original.url;
   const $newGifElement = $("<img>", { src: newGifSource });
 
   $gifBox.append($newGifElement);
   $searchTerm.val("");
-};
+}
 
-//TODO:refactor into 'handleClick controller'
-//TODO:build helper functions for handleClick
-//-get gif
-//-addGifToDom
-/** perform returnGif on search button click */
-$searchGifs.on("click", returnGif);
+//deleteGifAllGifs -> clears the gifs
+
+//deleteGif -> deletes clicked on gif
 
 //TODO: refactor into named function
 /** remove all gifs from gifs div */
