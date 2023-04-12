@@ -13,13 +13,9 @@ const $searchTerm = $("#search-term");
 const $gifBox = $("#gifs");
 const $deleteGifs = $("#delete-button");
 
+/**Event listeners */
 $searchGifs.on("click", handleClick);
-
-//handle click controller
-async function handleClick() {
-  const gif = await getGif()
-  addGifToDom(gif)
-}
+$deleteGifs.on("click", deleteAllGifs);
 
 //getGif function -> gets the gif
 async function getGif(){
@@ -45,11 +41,11 @@ function addGifToDom(gif) {
 }
 
 //deleteGifAllGifs -> clears the gifs
-
-//deleteGif -> deletes clicked on gif
-
-//TODO: refactor into named function
-/** remove all gifs from gifs div */
-$deleteGifs.on("click", () => {
+function deleteAllGifs() {
   $gifBox.empty();
-});
+}
+
+async function handleClick() {
+  const gif = await getGif()
+  addGifToDom(gif)
+}
