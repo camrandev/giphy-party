@@ -23,12 +23,13 @@ const returnGif = async function () {
     },
   });
 
-  console.log("gif.data.url=", gif.data.data[0].url);
-  const newGifSource = gif.data.data[0].url;
+  console.log("gif.data.url=", gif.data.data[0].images.original.url);
+  const newGifSource = gif.data.data[0].images.original.url;
 
-  const $newGifElement = $("<div>")
-    .addClass("gif-container")
-    .css("background-image",`url(${newGifSource})`);
+  const $newGifElement = $("<img>", {src: newGifSource})
+    // .addClass("gif-container")
+    // .css("background-image",`url(${newGifSource})`)
+    // .attr('height','200px')
 
   //create a new element to hold the gif
   //set the background property as the gif URL
